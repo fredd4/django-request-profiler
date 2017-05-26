@@ -55,9 +55,8 @@ class ProfilingMiddleware(MiddlewareMixin):
         and aborting the save if any listeners respond False.
 
         """
-        assert getattr(request, 'profiler', None) is not None, (
-            "Request has no profiler attached."
-        )
+        if getattr(request, 'profiler', None) is None:
+            return response
 
         # call the global exclude first, as there's no point continuing if this
         # says no.
